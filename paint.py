@@ -35,8 +35,24 @@ options = vision.HandLandmarkerOptions(base_options=base_options,
 #finds path and configures model
 
 detector = vision.HandLandmarker.create_from_options(options)
-cap = cv2.VideoCapture(0)
+cap = None
+for index in [0, 1, 2, 3]:
+    test_cap = cv2.VideoCapture(index, cv2.CAP_DSHOW)
+    if test_cap.isOpened():
+        ret, frame = test_cap.read()
+        if ret:
+            cap = test_cap
+            print(f"Success! Connected to camera at index {index}")
+            break
+        test_cap.release()
 #configures model to options & starts webcam
+#runs through every index used for video capture 
+
+if cap is None:
+    print("ERROR: No working webcam could be found on this machine!")
+
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
 
 ret, frame = cap.read()
 frame = cv2.flip(frame, 1)
@@ -73,6 +89,7 @@ while cap.isOpened():
     new_img1 = cv2.bitwise_not(mask)
     new_img2 = cv2.bitwise_and(frame, frame, mask=new_img1)
     final_img = cv2.add(new_img2, canvas)
+    final_img = cv2.resize(final_img, (1280, 720))
     cv2.imshow('Finger Paint', final_img)
 
     frame_count +=1
