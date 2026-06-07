@@ -10,6 +10,9 @@ Drawing a star with my finger!
 
 ## How to run 
 
+**ONLY WORKS ON WINDOWS 10+ x64 COMPUTERS** (i think)
+\
+Compiled code on Windows 10 64x 
 1. Go to the latest GitHub release and download zipped file 
 2. Unzip paint 
 3. Run paint.exe
