@@ -10,7 +10,7 @@ import os
 # in model folder
 
 frame_count = 0
-global latest_result
+new_img = None
 latest_result = None
 
 def paint_function(result, output_image, frame_count):
@@ -53,7 +53,7 @@ while cap.isOpened():
     rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     #opencv = BGR, mediapipe = RGB
     mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=rgb_frame)
-    result = detector.detect_async(mp_image, timestamp_ms=frame_count)
+    result = detector.detect_async(mp_image, frame_count)
     #flips frame, gets dimensions, converts to RGB, creates mediapipe image, and runs model on it
 
     if latest_result is not None and latest_result.hand_landmarks:
@@ -64,11 +64,18 @@ while cap.isOpened():
             cv2.line(canvas, (x,y), (x,y), (127,0,255), 10, lineType=cv2.LINE_AA)
             # cv2.circle(canvas, (x,y), 10, (127,0,255), -1, lineType=cv2.LINE_AA)
     else:
-        pass
+        final_img = frame
+    #if hand is detected, get index finger tip coordinates, draw on canvas, and combine canvas with webcam feed 
+    # If not, just show webcam feed
 
-    cv2.imshow('Finger Paint', canvas)
+    flip_img = cv2.cvtColor(canvas, cv2.COLOR_BGR2GRAY)
+    _, mask = cv2.threshold(flip_img, 65, 66, cv2.THRESH_BINARY)
+    new_img1 = cv2.bitwise_not(mask)
+    new_img2 = cv2.bitwise_and(frame, frame, mask=new_img1)
+    final_img = cv2.add(new_img2, canvas)
+    cv2.imshow('Finger Paint', final_img)
 
-    frame_count += 1
+    frame_count +=1
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
