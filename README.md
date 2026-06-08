@@ -17,3 +17,7 @@ Compiled code on Windows 10 64x
 2. Unzip paint 
 3. Run paint.exe
 4. Press q to quit when done (or let it run forever)
+
+## AI usage
+
+I used AI to help guide me through a majority of the steps without giving me the code actual code answer. Less than ~20% of code is generated with AI. 
