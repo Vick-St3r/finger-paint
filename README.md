@@ -20,4 +20,4 @@ Compiled code on Windows 10 64x
 
 ## AI usage
 
-I used AI to help guide me through a majority of the steps without giving me the code actual code answer. Less than ~20% of code is generated with AI. 
+I used AI to help guide me through a majority of the steps without giving me the actual code answer (kinda like a teacher). Less than ~20% of code is generated with AI. 
