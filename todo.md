@@ -1,6 +1,7 @@
 First priority
 
 1. Fix opacity issue with cv2.line 
+2. try interporlating between the two frames
 
 Polish 
 
