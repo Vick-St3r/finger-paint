@@ -1,5 +1,6 @@
 # import necessary libraries
 import cv2
+import collections
 import mediapipe as mp
 from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
@@ -12,6 +13,8 @@ import os
 frame_count = 0
 new_img = None
 latest_result = None
+
+finger_history = collections.deque(maxlen=30)
 
 def paint_function(result, output_image, frame_count):
     global latest_result
@@ -77,8 +80,9 @@ while cap.isOpened():
             index_finger_tip = hand_landmarks[8]
             #check for hand landmarks and get index finger tip (landmark 8)
             x,y = int(index_finger_tip.x * w), int(index_finger_tip.y * h)
-            cv2.line(canvas, (x,y), (x,y), (127,0,255), 10, lineType=cv2.LINE_AA)
-            # cv2.circle(canvas, (x,y), 10, (127,0,255), -1, lineType=cv2.LINE_AA)
+            finger_history.append((x, y))
+            for i in range(1, len(finger_history)):
+                cv2.line(canvas, finger_history[i-1], finger_history[i], (127,0,255), 10, lineType=cv2.LINE_AA)
     else:
         final_img = frame
     #if hand is detected, get index finger tip coordinates, draw on canvas, and combine canvas with webcam feed 
