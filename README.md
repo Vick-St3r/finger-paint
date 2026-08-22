@@ -18,6 +18,11 @@ Compiled code on Windows 10 64x
 3. Run paint.exe
 4. Press q to quit when done (or let it run forever)
 
+## How to contribute 
+1. Fork the Repo
+2. Make your changes on a separated branch
+3. Submit a pull request 
+
 ## AI usage
 
 I used AI to help guide me through a majority of the steps without giving me the actual code answer (kinda like a teacher). Less than ~20% of code is generated with AI. 
